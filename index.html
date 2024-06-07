@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizador</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <form action="">
+        <!--Primera columna-->
+        <div class="input-wrapper" id="iw1">
+            <p>CLIENTE: <input type="text" placeholder="CLIENTE" id="txt1" name="text1" class="input"></p>
+            <p>VIGENCIA: <input type="text" value="15 DÍAS HABILES" id="txt4" name="text4" class="input" readonly="readonly"></p>
+            <p>NÚMERO DE PERSONAS: <input type="number" value="0" id="txt6" name="text6" class="input"></p>
+            <p>DÍAS DE SERVICIO: <input type="text" value="0" id="txt7" name="text8" class="input" readonly="readonly"></p>
+            <p>COMBUSTIBLE: <input type="text" value="0" id="txt9" name="text9" class="input" readonly="readonly"></p>
+            <p>HOSPEDAJE: <input type="text" value="0" id="txt11" name="text11" class="input" readonly="readonly"></p>
+            <p>ADICIONALES (VUELOS, TAXIS): <input type="number" value="0" id="txt13" name="text13" class="input"></p>
+            <p>IVA: <input type="number" value="0" id="txtIVA" name="txtIVA" class="input"></p>
+        </div>
+        <!--Segunda columna-->
+        <div class="input-wrapper" id="iw2">
+            <p>FECHAS: <input type="date" id="txt2" name="text2" class="input">&nbsp&nbspA&nbsp&nbsp <input type="date" id="txt3" name="text3" class="input"></p>
+            <p>TIPO DE VEHÍCULO: <select name="text5" id="slt">
+                            <option value="AUTOMÓVIL">AUTOMÓVIL</option>
+                            <option value="CAMIONETA">CAMIONETA</option>
+                            <option value="GRÚA">GRÚA</option>
+                        </select></p>
+            <p>DESTINO: <select name="text7" id="slt1"></select></p>
+            <p>CIUDAD/MUNICIPIO: <select name="text8" id="slt2"></select></p>
+            <p>C.P: <input type="text" placeholder="CÓDIGO POSTAL" id="txt10" name="text10" class="input"></p>
+            <p>CASETAS: <input type="text" value="0" id="txt12" name="text12" class="input" readonly="readonly"></p>
+            <p>COMIDAS: <input type="text" value="0" id="txt14" name="text14" class="input" readonly="readonly"></p>
+            <p>MANO DE OBRA: <input type="number" value="0" id="txt15" name="text15" class="input"></p>
+        </div>
+    </form>
+    <div class="input-wrapper" id="iw3">
+        <p>TOTAL: <input type="text" value="0" id="txt16" name="text16" class="input" readonly="readonly"></p>
+    </div>
+    <!--<div class="checkbox-container">
+        <label class="cyberpunk-checkbox-label">
+            <input type="checkbox" class="cyberpunk-checkbox" id="cbo1">
+            CONDONACIÓN DE VIÁTICOS</label>
+    </div>-->
+    <br>
+    <div class="checkbox-container">
+        <button onclick="calcular()">CALCULAR</button>&nbsp&nbsp&nbsp&nbsp
+        <button id="btnPDF">GENERAR PDF</button>
+    </div>
+    <script src="datos.js"></script>
+    <script type="text/javascript" src="jspdf.min.js"></script>
+    <script type="text/javascript">
+        function genPDF() {
+            console.log("Iniciando generación de PDF");
+            var doc = new jsPDF('p', 'mm', 'letter');
+            var logo = new Image();
+            logo.src = 'foto.jpeg';
+            console.log("Ruta de la imagen:", logo.src);
+
+            logo.onload = function() {
+                console.log("Imagen cargada correctamente");
+                doc.addImage(logo, 'JPEG', 15, 40, 150, 20);
+                /*
+                aqui van los get
+                */
+
+
+            // Definir las celdas y el tamaño de la primera tabla (ancho duplicado)
+            var cellWidth = 200;  // Doble del ancho original
+            var cellHeight = 10; // Alto original
+            var tableRows = 5;
+            var tableCols = 1;
+            var tableWidth = cellWidth * tableCols;
+            var tableHeight = cellHeight * tableRows;
+            var startY = 60; // Posición inicial de la primera tabla
+
+            // Dibujar primera tabla
+            for (var i = 0; i < tableRows; i++) {
+                for (var j = 0; j < tableCols; j++) {
+                    var x = j * cellWidth;
+                    var y = startY + i * cellHeight;
+
+                    // Establecer el color de relleno y dibujar el rectángulo lleno
+                    doc.setFillColor(12, 148, 255);
+                    doc.rect(x, y, cellWidth, cellHeight, 'F'); // 'F' indica que se rellene el rectángulo
+
+                    // Establecer el color del texto en blanco
+                    doc.setTextColor(255, 255, 255); // Establecer el color del texto en blanco
+
+                    // Calcular las coordenadas para centrar el texto
+
+                    if(i==0){
+                        var text = 'COTIZACIÓN DE VIÁTICOS ';
+                        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                        var textX = x + (cellWidth - textWidth) / 2;
+                        var textY = y + (cellHeight / 2) + 3;
+                        doc.setFontSize(12);
+                    }else if(i==1){
+                        //Sacar las fechas
+                        let fecha1Input = document.getElementById('txt2');
+                        let fechaInicio = new Date(fecha1Input.value);
+
+                        // Calcular fecha fin sumando 15 días a fechaInicio
+                        let fechaFin = new Date(fechaInicio.getTime() + (15 * 24 * 60 * 60 * 1000));
+
+                        // Convertir fechaFin a una cadena en formato YYYY-MM-DD
+                        let year = fechaFin.getFullYear();
+                        let month = (fechaFin.getMonth() + 1).toString().padStart(2, '0');
+                        let day = fechaFin.getDate().toString().padStart(2, '0');
+                        let fechaFinString = `${year}-${month}-${day}`;
+
+                        // Crear la cadena de texto con las fechas
+                        var text = 'FECHA DE VIGENCIA DEL ' + fecha1Input.value + ' a ' + fechaFinString;
+                        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                        var textX = x + (cellWidth - textWidth) / 2;
+                        var textY = y + (cellHeight / 2) + 3;
+                        doc.setFontSize(12);
+                    }else if(i==2){
+                        var text = 'CLIENTE: ' + 'GALGA';
+                        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                        var textX = x + (cellWidth - textWidth) / 2;
+                        var textY = y + (cellHeight / 2) + 3;
+                        doc.setFontSize(12);
+                    }else if (i == 3) {
+                        var text = 'ESTA COTIZACIÓN TIENE UNA VIGENCIA DE 15 DÍAS';
+                        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                        var textX = x + (cellWidth - textWidth) / 2;
+                        var textY = y + (cellHeight / 2) + 3;
+                        doc.setFontSize(12);
+                    }else if (i == 4) {
+                        var text = 'EN CASO DE REQUERIR FACTURA SERÁ +IVA';
+                        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                        var textX = x + (cellWidth - textWidth) / 2;
+                        var textY = y + (cellHeight / 2) + 3;
+                        doc.setFontSize(12);
+                    }
+                    // Dibujar el texto centrado
+                    doc.text(text, textX, textY);
+
+                    // Dibujar el borde de la celda
+                    doc.setDrawColor(0); // Negro
+                    doc.setLineWidth(0.5); // Grosor del borde
+                    doc.rect(x, y, cellWidth, cellHeight); // Dibujar el borde de la celda
+                }
+            }
+
+
+
+
+            // Definir las celdas y el tamaño de la segunda tabla
+            var cellWidth = 80;
+            var cellHeight = 10;
+            var secondTableRows = 11;
+            var secondTableCols = 2;
+            var secondTableWidth = cellWidth * secondTableCols;
+            var secondTableHeight = cellHeight * secondTableRows;
+
+            // Calcular la posición de inicio de la segunda tabla
+            var secondTableStartX = 0;
+            var secondTableStartY = startY + 5 * cellHeight; // Comenzar justo después de las primeras 4 filas
+
+            // Dibujar segunda tabla
+            for (var i = 0; i < secondTableRows; i++) {
+                for (var j = 0; j < secondTableCols; j++) {
+                    var x = secondTableStartX + j * cellWidth;
+                    var y = secondTableStartY + i * cellHeight;
+
+                    // Ajustar el ancho de la segunda celda
+                    var cellWidthAdjusted = (j === 1) ? cellWidth * 1.5 : cellWidth;
+
+                    // Establecer colores y fondo según la celda
+                    if (i === 0 && j === 1) {
+                        // Segunda celda de la primera fila: fondo verde, texto blanco
+                        doc.setFillColor(34, 255, 148); // Verde
+                        doc.setTextColor(0, 0, 0); // Blanco
+                    } else if (i < 3) {
+                        // Primeras 3 filas excepto la segunda celda de la primera fila: fondo azul, texto blanco
+                        doc.setFillColor(12, 148, 255); // Azul
+                        doc.setTextColor(255, 255, 255); // Blanco
+                    } else if (i === secondTableRows - 1) {
+                        // Última fila: fondo amarillo, texto negro
+                        doc.setFillColor(255, 255, 0); // Amarillo
+                        doc.setTextColor(0, 0, 0); // Negro
+                    } else {
+                        // Resto de las filas: fondo blanco, texto negro
+                        doc.setFillColor(255, 255, 255); // Blanco
+                        doc.setTextColor(0, 0, 0); // Negro
+                    }
+
+                    // Dibujar el fondo de la celda
+                    doc.rect(x, y, cellWidthAdjusted, cellHeight, 'F'); // 'F' para rellenar
+
+                    // Establecer texto específico para ciertas celdas
+
+                    //Sacar y asignar los valores
+                    let NP=document.getElementById('txt6');//Numero de personas
+                    let Lg=document.getElementById('slt2');//Lugar
+                    let DS=document.getElementById('txt7');//Dias de servicio
+                    let CP=document.getElementById('txt10');//CP
+                    let Co=document.getElementById('txt9');//Combustible
+                    let Ca=document.getElementById('txt12');//Casetas
+                    let HP=document.getElementById('txt11');//Hospedaje
+                    let Com=document.getElementById('txt14');//Comidas
+                    let Ad=document.getElementById('txt13');//Adicionales
+                    let MO=document.getElementById('txt15');//Mano de obra
+                    let IVA=document.getElementById('txtIVA');//IVA
+                    let total=document.getElementById('txt16');//Total
+
+                    var text = 'Celda ' + (i * secondTableCols + j + 1);
+                    if (i === 0 && j === 0) {
+                        text = 'TIPO DE SERVICIO';
+                    } else if (i === 0 && j === 1) {
+                        text = 'SERVICIO TECNICO EN AUTOMOVÍL';
+                    } else if (i === 1 && j === 0) {
+                        text = 'NÚMERO DE PERSONAS: ' + NP.value;
+                    } else if (i === 1 && j === 1) {
+                        text = Lg.value;
+                    } else if (i === 2 && j === 0) {
+                        text = 'DÍAS DE SERVICIO: ' + DS.value;
+                    } else if (i === 2 && j === 1) {
+                        text = 'CP: ' + CP.value;
+                    } else if (i === 3 && j === 0) {
+                        text = 'COMBUSTIBLE';
+                    } else if (i === 3 && j === 1) {
+                        text = '$' + Co.value;
+                    } else if (i === 4 && j === 0) {
+                        text = 'CASETAS';
+                    } else if (i === 4 && j === 1) {
+                        text = '$' + Ca.value;
+                    } else if (i === 5 && j === 0) {
+                        text = 'HOSPEDAJE';
+                    } else if (i === 5 && j === 1) {
+                        text = '$' + HP.value;
+                    } else if (i === 6 && j === 0) {
+                        text = 'COMIDAS';
+                    } else if (i === 6 && j === 1) {
+                        text = '$' + Com.value;
+                    } else if (i === 7 && j === 0) {
+                        text = 'ADICIONALES (VUELOS O TAXIS)';
+                    } else if (i === 7 && j === 1) {
+                        text = '$' + Ad.value;
+                    } else if (i === 8 && j === 0) {
+                        text = 'IVA';
+                    } else if (i === 8 && j === 1) {
+                        text = '$' + IVA.value;
+                    } else if (i === 9 && j === 0) {
+                        text = 'MANO DE OBRA';
+                    } else if (i === 9 && j === 1) {
+                        text = '$' + MO.value
+                    } else if (i === 10 && j === 0) {
+                        text = 'TOTAL';
+                    } else if (i === 10 && j === 1) {
+                        text = '$' + total.value;
+                    }
+
+                    // Dibujar el texto
+                    doc.text(text, x + 5, y + cellHeight / 2 + 3);
+
+                    // Dibujar el borde de la celda
+                    doc.setDrawColor(0); // Negro
+                    doc.setLineWidth(0.5); // Grosor del borde
+                    doc.rect(x, y, cellWidthAdjusted, cellHeight); // Dibujar el borde de la celda
+                }
+            }
+
+
+                let nombre=document.getElementById('txt1');
+                let fecha=document.getElementById('txt2');
+                let destino=document.getElementById('slt1');
+                doc.save(nombre.value + '-' + fecha.value + '-' +  destino.value + '.pdf');
+                console.log("PDF guardado");
+            };
+        }   
+    </script>
+</body>
+</html>
