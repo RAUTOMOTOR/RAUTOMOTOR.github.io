@@ -171,7 +171,7 @@ let ciudades=[
     {estado: 'GUANAJUATO', ciudad: "LA CALERA", KM: "", casetas: ""},
     {estado: 'GUANAJUATO', ciudad: "LA MONCADA", KM: "", casetas: ""},
     {estado: 'GUANAJUATO', ciudad: "LAGUNA DE GUADALUPE", KM: "", casetas: ""},
-    {estado: 'GUANAJUATO', ciudad: "LEON", KM: "", casetas: "683"},
+    {estado: 'GUANAJUATO', ciudad: "LEON", KM: "130", casetas: "683"},
     {estado: 'GUANAJUATO', ciudad: "LEON DE LOS ALDAMA", KM: "", casetas: ""},
     {estado: 'GUANAJUATO', ciudad: "LOMA PELADA", KM: "", casetas: ""},
     {estado: 'GUANAJUATO', ciudad: "LO DE JUAREZ", KM: "", casetas: ""},
@@ -1154,7 +1154,6 @@ function calcular() {
     let casetas = document.getElementById('txt12');
     let vehiculo = document.getElementById('slt');
     let numeroPersonas = parseInt(document.getElementById('txt6').value, 10);
-    if (numeroPersonas % 2 != 0) numeroPersonas += 1;
     let fechaInicio = new Date(document.getElementById('txt2').value);
     let fechaFin = new Date(document.getElementById('txt3').value);
 
@@ -1168,8 +1167,15 @@ function calcular() {
     comidas.value = resultadoComidas;
 
     // Calcular el hospedaje
-    let resultadoHospedaje = 850 * ((numeroPersonas / 2) * diasServicio);
+    let resultadoHospedaje;
+    if(diasServicio>1){
+    if (numeroPersonas % 2 != 0) numeroPersonas += 1;
+    resultadoHospedaje = 850 * ((numeroPersonas / 2) * (diasServicio-1));
     hospedaje.value = resultadoHospedaje;
+    }else {
+        resultadoHospedaje=0;
+        hospedaje.value = resultadoHospedaje;
+    }
 
     // Calcular combustible
     let combus = kilometros(casetas);
@@ -1181,7 +1187,7 @@ function calcular() {
     }else if (vehiculo.value == "CAMIONETA") {
         resultadoCombustible = combus * (2.0 / 6) * 24 * 1.25;
     }else if (vehiculo.value == "GRÚA") {
-        resultadoCombustible = (combus*3) * (2.0 / 4) * 24 * 1.25;
+        resultadoCombustible = ((combus*3) * (2.0 / 4) * 24 * 1.25)*1.25;
     }
     combustible.value = resultadoCombustible.toFixed(2); // Aseguramos que sea un número con dos decimales
 
@@ -1198,7 +1204,7 @@ function kilometros(casetasElement) {
     let ciudadS = document.getElementById('slt2').value;
     for (var i = 0; i < ciudades.length; i++) {
         if (ciudades[i].ciudad == ciudadS) {
-            casetasElement.value = ciudades[i].casetas;
+            casetasElement.value = (ciudades[i].casetas*1.25);
             return parseInt(ciudades[i].KM, 10); // Aseguramos la base decimal
         }
     }

@@ -97,21 +97,26 @@
                         var textY = y + (cellHeight / 2) + 3;
                         doc.setFontSize(12);
                     }else if(i==1){
-                        //Sacar las fechas
-                        let fecha1Input = document.getElementById('txt2');
-                        let fechaInicio = new Date(fecha1Input.value);
+                        // Establecer la fecha de inicio como la fecha actual
+                        let fechaInicio = new Date();
 
-                        // Calcular fecha fin sumando 15 días a fechaInicio
-                        let fechaFin = new Date(fechaInicio.getTime() + (15 * 24 * 60 * 60 * 1000));
+                        // Calcular fecha fin sumando 14 días a fechaInicio (para que el periodo sea de 15 días incluyendo el inicio)
+                        let fechaFin = new Date(fechaInicio.getTime() + (14 * 24 * 60 * 60 * 1000));
 
-                        // Convertir fechaFin a una cadena en formato YYYY-MM-DD
-                        let year = fechaFin.getFullYear();
-                        let month = (fechaFin.getMonth() + 1).toString().padStart(2, '0');
-                        let day = fechaFin.getDate().toString().padStart(2, '0');
-                        let fechaFinString = `${year}-${month}-${day}`;
+                        // Convertir fechaInicio a una cadena en formato DD-MM-YYYY
+                        let yearInicio = fechaInicio.getFullYear();
+                        let monthInicio = (fechaInicio.getMonth() + 1).toString().padStart(2, '0');
+                        let dayInicio = fechaInicio.getDate().toString().padStart(2, '0');
+                        let fechaInicioString = `${dayInicio}-${monthInicio}-${yearInicio}`;
+
+                        // Convertir fechaFin a una cadena en formato DD-MM-YYYY
+                        let yearFin = fechaFin.getFullYear();
+                        let monthFin = (fechaFin.getMonth() + 1).toString().padStart(2, '0');
+                        let dayFin = fechaFin.getDate().toString().padStart(2, '0');
+                        let fechaFinString = `${dayFin}-${monthFin}-${yearFin}`;
 
                         // Crear la cadena de texto con las fechas
-                        var text = 'FECHA DE VIGENCIA DEL ' + fecha1Input.value + ' a ' + fechaFinString;
+                        var text = 'FECHA DE VIGENCIA DEL ' + fechaInicioString + ' a ' + fechaFinString;
                         var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
                         var textX = x + (cellWidth - textWidth) / 2;
                         var textY = y + (cellHeight / 2) + 3;
@@ -266,9 +271,17 @@
 
 
                 let nombre=document.getElementById('txt1');
-                let fecha=document.getElementById('txt2');
+                
+                const fechaActual = new Date();
+
+                // Obtener el año, mes y día
+                const año = fechaActual.getFullYear();
+                const mes = fechaActual.getMonth() + 1; // Los meses empiezan desde 0
+                const día = fechaActual.getDate();
+                let fechaInicioString = `${día}-${mes}-${año}`;
+                
                 let destino=document.getElementById('slt1');
-                doc.save(nombre.value + '-' + fecha.value + '-' +  destino.value + '.pdf');
+                doc.save(nombre.value + '-' + fechaInicioString + '-' +  destino.value + '.pdf');
                 console.log("PDF guardado");
             };
         }   
