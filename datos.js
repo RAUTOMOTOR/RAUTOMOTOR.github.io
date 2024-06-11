@@ -205,7 +205,7 @@ let ciudades=[
     {estado: 'GUERRERO', ciudad: "TIXTLA DE GUERRERO", KM: "559", casetas: "1027"},
     {estado: 'GUERRERO', ciudad: "TLAHUAPA", KM: "706", casetas: "986"},
     {estado: 'GUERRERO', ciudad: "TLAPEHUALA", KM: "334", casetas: "80"},
-    {estado: 'GUERRERO', ciudad: "TLAXCO", KM: "540", casetas: "912"},,
+    {estado: 'GUERRERO', ciudad: "TLAXCO", KM: "540", casetas: "912"},
     {estado: 'GUERRERO', ciudad: "ZACOALPAN", KM: "843", casetas: "1546"},
     {estado: 'GUERRERO', ciudad: "ZIHUATANEJO", KM: "401", casetas: "787"},
     {estado: 'HIDALGO', ciudad: "ACATLAN", KM: "376", casetas: "736"},
