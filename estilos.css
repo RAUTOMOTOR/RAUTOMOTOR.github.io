@@ -8,12 +8,12 @@ p{
 
 #iw1 {
     float: left; /* Pegar a la izquierda */
-    padding-left: 210px; /* Padding izquierdo de 40px */
+    padding-left: 150px; /* Padding izquierdo de 40px */
 }
 
 #iw2 {
     float: right; /* Pegar a la derecha */
-    padding-right: 200px; /* Padding derecho de 40px */
+    padding-right: 120px; /* Padding derecho de 40px */
 }
 
 #iw3{

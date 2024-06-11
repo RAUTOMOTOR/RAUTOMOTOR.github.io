@@ -66,212 +66,212 @@
                 */
 
 
-            // Definir las celdas y el tamaño de la primera tabla (ancho duplicado)
-            var cellWidth = 200;  // Doble del ancho original
-            var cellHeight = 10; // Alto original
-            var tableRows = 5;
-            var tableCols = 1;
-            var tableWidth = cellWidth * tableCols;
-            var tableHeight = cellHeight * tableRows;
-            var startY = 60; // Posición inicial de la primera tabla
+                // Definir las celdas y el tamaño de la primera tabla (ancho duplicado)
+                var cellWidth = 200;  // Doble del ancho original
+                var cellHeight = 10; // Alto original
+                var tableRows = 5;
+                var tableCols = 1;
+                var tableWidth = cellWidth * tableCols;
+                var tableHeight = cellHeight * tableRows;
+                var startY = 60; // Posición inicial de la primera tabla
 
-            // Dibujar primera tabla
-            for (var i = 0; i < tableRows; i++) {
-                for (var j = 0; j < tableCols; j++) {
-                    var x = j * cellWidth;
-                    var y = startY + i * cellHeight;
+                // Dibujar primera tabla
+                for (var i = 0; i < tableRows; i++) {
+                    for (var j = 0; j < tableCols; j++) {
+                        var x = j * cellWidth;
+                        var y = startY + i * cellHeight;
 
-                    // Establecer el color de relleno y dibujar el rectángulo lleno
-                    doc.setFillColor(12, 148, 255);
-                    doc.rect(x, y, cellWidth, cellHeight, 'F'); // 'F' indica que se rellene el rectángulo
+                        // Establecer el color de relleno y dibujar el rectángulo lleno
+                        doc.setFillColor(12, 148, 255);
+                        doc.rect(x, y, cellWidth, cellHeight, 'F'); // 'F' indica que se rellene el rectángulo
 
-                    // Establecer el color del texto en blanco
-                    doc.setTextColor(255, 255, 255); // Establecer el color del texto en blanco
+                        // Establecer el color del texto en blanco
+                        doc.setTextColor(255, 255, 255); // Establecer el color del texto en blanco
 
-                    // Calcular las coordenadas para centrar el texto
+                        // Calcular las coordenadas para centrar el texto
 
-                    if(i==0){
-                        var text = 'COTIZACIÓN DE VIÁTICOS ';
-                        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-                        var textX = x + (cellWidth - textWidth) / 2;
-                        var textY = y + (cellHeight / 2) + 3;
-                        doc.setFontSize(12);
-                    }else if(i==1){
-                        // Establecer la fecha de inicio como la fecha actual
-                        let fechaInicio = new Date();
+                        if(i==0){
+                            var text = 'COTIZACIÓN DE VIÁTICOS ';
+                            var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                            var textX = x + (cellWidth - textWidth) / 2;
+                            var textY = y + (cellHeight / 2) + 3;
+                            doc.setFontSize(12);
+                        }else if(i==1){
+                            // Establecer la fecha de inicio como la fecha actual
+                            let fechaInicio = new Date();
 
-                        // Calcular fecha fin sumando 14 días a fechaInicio (para que el periodo sea de 15 días incluyendo el inicio)
-                        let fechaFin = new Date(fechaInicio.getTime() + (14 * 24 * 60 * 60 * 1000));
+                            // Calcular fecha fin sumando 14 días a fechaInicio (para que el periodo sea de 15 días incluyendo el inicio)
+                            let fechaFin = new Date(fechaInicio.getTime() + (14 * 24 * 60 * 60 * 1000));
 
-                        // Convertir fechaInicio a una cadena en formato DD-MM-YYYY
-                        let yearInicio = fechaInicio.getFullYear();
-                        let monthInicio = (fechaInicio.getMonth() + 1).toString().padStart(2, '0');
-                        let dayInicio = fechaInicio.getDate().toString().padStart(2, '0');
-                        let fechaInicioString = `${dayInicio}-${monthInicio}-${yearInicio}`;
+                            // Convertir fechaInicio a una cadena en formato DD-MM-YYYY
+                            let yearInicio = fechaInicio.getFullYear();
+                            let monthInicio = (fechaInicio.getMonth() + 1).toString().padStart(2, '0');
+                            let dayInicio = fechaInicio.getDate().toString().padStart(2, '0');
+                            let fechaInicioString = `${dayInicio}-${monthInicio}-${yearInicio}`;
 
-                        // Convertir fechaFin a una cadena en formato DD-MM-YYYY
-                        let yearFin = fechaFin.getFullYear();
-                        let monthFin = (fechaFin.getMonth() + 1).toString().padStart(2, '0');
-                        let dayFin = fechaFin.getDate().toString().padStart(2, '0');
-                        let fechaFinString = `${dayFin}-${monthFin}-${yearFin}`;
+                            // Convertir fechaFin a una cadena en formato DD-MM-YYYY
+                            let yearFin = fechaFin.getFullYear();
+                            let monthFin = (fechaFin.getMonth() + 1).toString().padStart(2, '0');
+                            let dayFin = fechaFin.getDate().toString().padStart(2, '0');
+                            let fechaFinString = `${dayFin}-${monthFin}-${yearFin}`;
 
-                        // Crear la cadena de texto con las fechas
-                        var text = 'FECHA DE VIGENCIA DEL ' + fechaInicioString + ' a ' + fechaFinString;
-                        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-                        var textX = x + (cellWidth - textWidth) / 2;
-                        var textY = y + (cellHeight / 2) + 3;
-                        doc.setFontSize(12);
-                    }else if(i==2){
-                        var text = 'CLIENTE: ' + 'GALGA';
-                        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-                        var textX = x + (cellWidth - textWidth) / 2;
-                        var textY = y + (cellHeight / 2) + 3;
-                        doc.setFontSize(12);
-                    }else if (i == 3) {
-                        var text = 'ESTA COTIZACIÓN TIENE UNA VIGENCIA DE 15 DÍAS';
-                        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-                        var textX = x + (cellWidth - textWidth) / 2;
-                        var textY = y + (cellHeight / 2) + 3;
-                        doc.setFontSize(12);
-                    }else if (i == 4) {
-                        var text = 'EN CASO DE REQUERIR FACTURA SERÁ +IVA';
-                        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-                        var textX = x + (cellWidth - textWidth) / 2;
-                        var textY = y + (cellHeight / 2) + 3;
-                        doc.setFontSize(12);
+                            // Crear la cadena de texto con las fechas
+                            var text = 'FECHA DE VIGENCIA DEL ' + fechaInicioString + ' a ' + fechaFinString;
+                            var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                            var textX = x + (cellWidth - textWidth) / 2;
+                            var textY = y + (cellHeight / 2) + 3;
+                            doc.setFontSize(12);
+                        }else if(i==2){
+                            var text = 'CLIENTE: ' + 'GALGA';
+                            var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                            var textX = x + (cellWidth - textWidth) / 2;
+                            var textY = y + (cellHeight / 2) + 3;
+                            doc.setFontSize(12);
+                        }else if (i == 3) {
+                            var text = 'ESTA COTIZACIÓN TIENE UNA VIGENCIA DE 15 DÍAS';
+                            var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                            var textX = x + (cellWidth - textWidth) / 2;
+                            var textY = y + (cellHeight / 2) + 3;
+                            doc.setFontSize(12);
+                        }else if (i == 4) {
+                            var text = 'EN CASO DE REQUERIR FACTURA SERÁ +IVA';
+                            var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                            var textX = x + (cellWidth - textWidth) / 2;
+                            var textY = y + (cellHeight / 2) + 3;
+                            doc.setFontSize(12);
+                        }
+                        // Dibujar el texto centrado
+                        doc.text(text, textX, textY);
+
+                        // Dibujar el borde de la celda
+                        doc.setDrawColor(0); // Negro
+                        doc.setLineWidth(0.5); // Grosor del borde
+                        doc.rect(x, y, cellWidth, cellHeight); // Dibujar el borde de la celda
                     }
-                    // Dibujar el texto centrado
-                    doc.text(text, textX, textY);
-
-                    // Dibujar el borde de la celda
-                    doc.setDrawColor(0); // Negro
-                    doc.setLineWidth(0.5); // Grosor del borde
-                    doc.rect(x, y, cellWidth, cellHeight); // Dibujar el borde de la celda
                 }
-            }
 
 
 
 
-            // Definir las celdas y el tamaño de la segunda tabla
-            var cellWidth = 80;
-            var cellHeight = 10;
-            var secondTableRows = 11;
-            var secondTableCols = 2;
-            var secondTableWidth = cellWidth * secondTableCols;
-            var secondTableHeight = cellHeight * secondTableRows;
+                // Definir las celdas y el tamaño de la segunda tabla
+                var cellWidth = 80;
+                var cellHeight = 10;
+                var secondTableRows = 11;
+                var secondTableCols = 2;
+                var secondTableWidth = cellWidth * secondTableCols;
+                var secondTableHeight = cellHeight * secondTableRows;
 
-            // Calcular la posición de inicio de la segunda tabla
-            var secondTableStartX = 0;
-            var secondTableStartY = startY + 5 * cellHeight; // Comenzar justo después de las primeras 4 filas
+                // Calcular la posición de inicio de la segunda tabla
+                var secondTableStartX = 0;
+                var secondTableStartY = startY + 5 * cellHeight; // Comenzar justo después de las primeras 4 filas
 
-            // Dibujar segunda tabla
-            for (var i = 0; i < secondTableRows; i++) {
-                for (var j = 0; j < secondTableCols; j++) {
-                    var x = secondTableStartX + j * cellWidth;
-                    var y = secondTableStartY + i * cellHeight;
+                // Dibujar segunda tabla
+                for (var i = 0; i < secondTableRows; i++) {
+                    for (var j = 0; j < secondTableCols; j++) {
+                        var x = secondTableStartX + j * cellWidth;
+                        var y = secondTableStartY + i * cellHeight;
 
-                    // Ajustar el ancho de la segunda celda
-                    var cellWidthAdjusted = (j === 1) ? cellWidth * 1.5 : cellWidth;
+                        // Ajustar el ancho de la segunda celda
+                        var cellWidthAdjusted = (j === 1) ? cellWidth * 1.5 : cellWidth;
 
-                    // Establecer colores y fondo según la celda
-                    if (i === 0 && j === 1) {
-                        // Segunda celda de la primera fila: fondo verde, texto blanco
-                        doc.setFillColor(34, 255, 148); // Verde
-                        doc.setTextColor(0, 0, 0); // Blanco
-                    } else if (i < 3) {
-                        // Primeras 3 filas excepto la segunda celda de la primera fila: fondo azul, texto blanco
-                        doc.setFillColor(12, 148, 255); // Azul
-                        doc.setTextColor(255, 255, 255); // Blanco
-                    } else if (i === secondTableRows - 1) {
-                        // Última fila: fondo amarillo, texto negro
-                        doc.setFillColor(255, 255, 0); // Amarillo
-                        doc.setTextColor(0, 0, 0); // Negro
-                    } else {
-                        // Resto de las filas: fondo blanco, texto negro
-                        doc.setFillColor(255, 255, 255); // Blanco
-                        doc.setTextColor(0, 0, 0); // Negro
+                        // Establecer colores y fondo según la celda
+                        if (i === 0 && j === 1) {
+                            // Segunda celda de la primera fila: fondo verde, texto blanco
+                            doc.setFillColor(34, 255, 148); // Verde
+                            doc.setTextColor(0, 0, 0); // Blanco
+                        } else if (i < 3) {
+                            // Primeras 3 filas excepto la segunda celda de la primera fila: fondo azul, texto blanco
+                            doc.setFillColor(12, 148, 255); // Azul
+                            doc.setTextColor(255, 255, 255); // Blanco
+                        } else if (i === secondTableRows - 1) {
+                            // Última fila: fondo amarillo, texto negro
+                            doc.setFillColor(255, 255, 0); // Amarillo
+                            doc.setTextColor(0, 0, 0); // Negro
+                        } else {
+                            // Resto de las filas: fondo blanco, texto negro
+                            doc.setFillColor(255, 255, 255); // Blanco
+                            doc.setTextColor(0, 0, 0); // Negro
+                        }
+
+                        // Dibujar el fondo de la celda
+                        doc.rect(x, y, cellWidthAdjusted, cellHeight, 'F'); // 'F' para rellenar
+
+                        // Establecer texto específico para ciertas celdas
+
+                        //Sacar y asignar los valores
+                        let NP=document.getElementById('txt6');//Numero de personas
+                        let Lg=document.getElementById('slt2');//Lugar
+                        let DS=document.getElementById('txt7');//Dias de servicio
+                        let CP=document.getElementById('txt10');//CP
+                        let Co=document.getElementById('txt9');//Combustible
+                        let Ca=document.getElementById('txt12');//Casetas
+                        let HP=document.getElementById('txt11');//Hospedaje
+                        let Com=document.getElementById('txt14');//Comidas
+                        let Ad=document.getElementById('txt13');//Adicionales
+                        let MO=document.getElementById('txt15');//Mano de obra
+                        let IVA=document.getElementById('txtIVA');//IVA
+                        let total=document.getElementById('txt16');//Total
+
+                        var text = 'Celda ' + (i * secondTableCols + j + 1);
+                        if (i === 0 && j === 0) {
+                            text = 'TIPO DE SERVICIO';
+                        } else if (i === 0 && j === 1) {
+                            text = 'SERVICIO TECNICO EN AUTOMOVÍL';
+                        } else if (i === 1 && j === 0) {
+                            text = 'NÚMERO DE PERSONAS: ' + NP.value;
+                        } else if (i === 1 && j === 1) {
+                            text = Lg.value;
+                        } else if (i === 2 && j === 0) {
+                            text = 'DÍAS DE SERVICIO: ' + DS.value;
+                        } else if (i === 2 && j === 1) {
+                            text = 'CP: ' + CP.value;
+                        } else if (i === 3 && j === 0) {
+                            text = 'COMBUSTIBLE';
+                        } else if (i === 3 && j === 1) {
+                            text = '$' + Co.value;
+                        } else if (i === 4 && j === 0) {
+                            text = 'CASETAS';
+                        } else if (i === 4 && j === 1) {
+                            text = '$' + Ca.value;
+                        } else if (i === 5 && j === 0) {
+                            text = 'HOSPEDAJE';
+                        } else if (i === 5 && j === 1) {
+                            text = '$' + HP.value;
+                        } else if (i === 6 && j === 0) {
+                            text = 'COMIDAS';
+                        } else if (i === 6 && j === 1) {
+                            text = '$' + Com.value;
+                        } else if (i === 7 && j === 0) {
+                            text = 'ADICIONALES (VUELOS O TAXIS)';
+                        } else if (i === 7 && j === 1) {
+                            text = '$' + Ad.value;
+                        } else if (i === 8 && j === 0) {
+                            text = 'IVA';
+                        } else if (i === 8 && j === 1) {
+                            text = '$' + IVA.value;
+                        } else if (i === 9 && j === 0) {
+                            text = 'MANO DE OBRA';
+                        } else if (i === 9 && j === 1) {
+                            text = '$' + MO.value
+                        } else if (i === 10 && j === 0) {
+                            text = 'TOTAL';
+                        } else if (i === 10 && j === 1) {
+                            text = '$' + total.value;
+                        }
+
+                        // Dibujar el texto
+                        doc.text(text, x + 5, y + cellHeight / 2 + 3);
+
+                        // Dibujar el borde de la celda
+                        doc.setDrawColor(0); // Negro
+                        doc.setLineWidth(0.5); // Grosor del borde
+                        doc.rect(x, y, cellWidthAdjusted, cellHeight); // Dibujar el borde de la celda
                     }
-
-                    // Dibujar el fondo de la celda
-                    doc.rect(x, y, cellWidthAdjusted, cellHeight, 'F'); // 'F' para rellenar
-
-                    // Establecer texto específico para ciertas celdas
-
-                    //Sacar y asignar los valores
-                    let NP=document.getElementById('txt6');//Numero de personas
-                    let Lg=document.getElementById('slt2');//Lugar
-                    let DS=document.getElementById('txt7');//Dias de servicio
-                    let CP=document.getElementById('txt10');//CP
-                    let Co=document.getElementById('txt9');//Combustible
-                    let Ca=document.getElementById('txt12');//Casetas
-                    let HP=document.getElementById('txt11');//Hospedaje
-                    let Com=document.getElementById('txt14');//Comidas
-                    let Ad=document.getElementById('txt13');//Adicionales
-                    let MO=document.getElementById('txt15');//Mano de obra
-                    let IVA=document.getElementById('txtIVA');//IVA
-                    let total=document.getElementById('txt16');//Total
-
-                    var text = 'Celda ' + (i * secondTableCols + j + 1);
-                    if (i === 0 && j === 0) {
-                        text = 'TIPO DE SERVICIO';
-                    } else if (i === 0 && j === 1) {
-                        text = 'SERVICIO TECNICO EN AUTOMOVÍL';
-                    } else if (i === 1 && j === 0) {
-                        text = 'NÚMERO DE PERSONAS: ' + NP.value;
-                    } else if (i === 1 && j === 1) {
-                        text = Lg.value;
-                    } else if (i === 2 && j === 0) {
-                        text = 'DÍAS DE SERVICIO: ' + DS.value;
-                    } else if (i === 2 && j === 1) {
-                        text = 'CP: ' + CP.value;
-                    } else if (i === 3 && j === 0) {
-                        text = 'COMBUSTIBLE';
-                    } else if (i === 3 && j === 1) {
-                        text = '$' + Co.value;
-                    } else if (i === 4 && j === 0) {
-                        text = 'CASETAS';
-                    } else if (i === 4 && j === 1) {
-                        text = '$' + Ca.value;
-                    } else if (i === 5 && j === 0) {
-                        text = 'HOSPEDAJE';
-                    } else if (i === 5 && j === 1) {
-                        text = '$' + HP.value;
-                    } else if (i === 6 && j === 0) {
-                        text = 'COMIDAS';
-                    } else if (i === 6 && j === 1) {
-                        text = '$' + Com.value;
-                    } else if (i === 7 && j === 0) {
-                        text = 'ADICIONALES (VUELOS O TAXIS)';
-                    } else if (i === 7 && j === 1) {
-                        text = '$' + Ad.value;
-                    } else if (i === 8 && j === 0) {
-                        text = 'IVA';
-                    } else if (i === 8 && j === 1) {
-                        text = '$' + IVA.value;
-                    } else if (i === 9 && j === 0) {
-                        text = 'MANO DE OBRA';
-                    } else if (i === 9 && j === 1) {
-                        text = '$' + MO.value
-                    } else if (i === 10 && j === 0) {
-                        text = 'TOTAL';
-                    } else if (i === 10 && j === 1) {
-                        text = '$' + total.value;
-                    }
-
-                    // Dibujar el texto
-                    doc.text(text, x + 5, y + cellHeight / 2 + 3);
-
-                    // Dibujar el borde de la celda
-                    doc.setDrawColor(0); // Negro
-                    doc.setLineWidth(0.5); // Grosor del borde
-                    doc.rect(x, y, cellWidthAdjusted, cellHeight); // Dibujar el borde de la celda
                 }
-            }
 
 
                 let nombre=document.getElementById('txt1');
-                
+                    
                 const fechaActual = new Date();
 
                 // Obtener el año, mes y día
@@ -282,9 +282,9 @@
                 
                 let destino=document.getElementById('slt1');
                 doc.save(nombre.value + '-' + fechaInicioString + '-' +  destino.value + '.pdf');
-                console.log("PDF guardado");
+                //console.log("PDF guardado");
             };
-        }   
+        }
     </script>
 </body>
 </html>
