@@ -624,6 +624,7 @@ function calcular() {
 
 function kilometros(casetasElement) {
     let ciudadS = document.getElementById('slt2').value;
+    console.log(ciudadS);
     for (var i = 0; i < ciudades.length; i++) {
         if (ciudades[i].ciudad == ciudadS) {
             casetasElement.value = (ciudades[i].casetas*1.25);
