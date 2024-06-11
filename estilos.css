@@ -51,7 +51,9 @@ p{
 .checkbox-container , #txt16{
     display: flex;
     justify-content: center;
+    padding-right: 80px;
 }
+
   
   .cyberpunk-checkbox:before {
     content: "";

@@ -608,7 +608,18 @@ function calcular() {
     let adicionales = parseFloat(document.getElementById('txt13').value);
     let manoObra = parseFloat(document.getElementById('txt15').value);
     let IVA = parseFloat(document.getElementById('txtIVA').value);
+    let subtotal = resultadoComidas + resultadoHospedaje + parseFloat(resultadoCombustible) + caseta + adicionales + manoObra;
     total.value = (resultadoComidas + resultadoHospedaje + parseFloat(resultadoCombustible) + caseta + adicionales + manoObra + IVA).toFixed(0);
+
+    // Calcular IVA en caso de que se requiera factura
+    let checkbox = document.getElementById('cbo1');
+
+    if (checkbox.checked) {
+        let IVAc = subtotal * 0.16;
+        document.getElementById('txtIVA').value = IVAc.toFixed(2);
+        subtotal += IVAc;
+        total.value = subtotal.toFixed(2);
+    }
 }
 
 function kilometros(casetasElement) {

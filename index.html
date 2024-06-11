@@ -17,7 +17,12 @@
             <p>COMBUSTIBLE: <input type="text" value="0" id="txt9" name="text9" class="input" readonly="readonly"></p>
             <p>HOSPEDAJE: <input type="text" value="0" id="txt11" name="text11" class="input" readonly="readonly"></p>
             <p>ADICIONALES (VUELOS, TAXIS): <input type="number" value="0" id="txt13" name="text13" class="input"></p>
-            <p>IVA: <input type="number" value="0" id="txtIVA" name="txtIVA" class="input"></p>
+            <p>IVA: <input type="text" value="0" id="txtIVA" name="txtIVA" class="input" readonly="readonly"></p>
+            <div class="checkbox-container">
+                <label class="cyberpunk-checkbox-label">
+                    <input type="checkbox" class="cyberpunk-checkbox" id="cbo1">
+                    SE REQUIERE FACTURA</label>
+            </div>
         </div>
         <!--Segunda columna-->
         <div class="input-wrapper" id="iw2">
@@ -38,11 +43,6 @@
     <div class="input-wrapper" id="iw3">
         <p>TOTAL: <input type="text" value="0" id="txt16" name="text16" class="input" readonly="readonly"></p>
     </div>
-    <!--<div class="checkbox-container">
-        <label class="cyberpunk-checkbox-label">
-            <input type="checkbox" class="cyberpunk-checkbox" id="cbo1">
-            CONDONACIÓN DE VIÁTICOS</label>
-    </div>-->
     <br>
     <div class="checkbox-container">
         <button onclick="calcular()">CALCULAR</button>&nbsp&nbsp&nbsp&nbsp
